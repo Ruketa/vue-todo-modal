@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref, computed } from "vue";
-import { useModal } from "./useModal"
 
 export default defineComponent({
   name: "Modal",
