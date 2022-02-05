@@ -9,7 +9,7 @@
     </div>
     <div class="modal__main">
       <div v-for="slopeOption in slopeOptions" :key="slopeOption">
-        <div :class="radio_style(slopeOption.value)">
+        <div :class="radioStyle(slopeOption.value)">
           <input type="radio" name="slope" :value="slopeOption.value" v-model="selectComputed"/>
           <label>{{slopeOption.label}}</label>
         </div>
@@ -27,63 +27,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, computed } from "vue";
+import { defineComponent } from "vue";
 import { useModal } from "./useModal"
 
 export default defineComponent({
   name: "Modal",
   setup(props, context){
 
-    // ラジオボタンスタイル
-    const radio_style = (slopeValue: string) => {
-      let style = "modal__main__radio"
-      if(slopeValue === selected.value){
-        style = style + " radio__checked"
-      }
-      return style
-    } 
-
-    // Radioボタンの選択中データ
-    const selected= ref("");
-    const selectedOption = ref({})
-    const selectComputed  = computed({
-      get: () => selected.value,
-      set: (value: string) => { 
-          selected.value = value 
-          const option = slopeOptions.find((opt)=>opt.value === Number(value))
-          if(option){
-            selectedOption.value = option 
-          }
-        }
-    })
-    // オプションデータ
-    const slopeOptions = reactive([
-      {
-        value: 0,
-        label: "要件定義",
-        cost: 10
-      },
-      {
-        value: 1,
-        label: "論理設計",
-        cost: 20
-      },
-      {
-        value: 2,
-        label: "物理設計",
-        cost: 30
-      },
-      {
-        value: 3,
-        label: "プログラム",
-        cost: 40
-      },
-      {
-        value: 4,
-        label: "テスト",
-        cost : 50
-      },
-    ])
+    const modal = useModal()
 
     // ×ボタン押した時のイベントハンドラ
     const handleClickClose = () => {
@@ -97,17 +48,17 @@ export default defineComponent({
 
     // OKボタン押した時のイベントハンドラ
     const handleClickSubmit = () => {
-      const option = slopeOptions.find((opt) => opt.value === Number(selected.value))
+      const option = modal.slopeOptions.find((opt) => opt.value === Number(modal.selected.value))
       context.emit("updateSelectedSlope", option)
     }
 
     return {
-      selected,
-      selectComputed,
-      slopeOptions,
-      selectedOption,
-      
-      radio_style,
+      selected: modal.selected,
+      selectComputed: modal.selectComputed,
+      slopeOptions: modal.slopeOptions,
+      selectedOption: modal.selectedOption,
+
+      radioStyle: modal.radioStyle,
       handleClickClose,
       handleClickCancel,
       handleClickSubmit,
@@ -127,7 +78,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   background: rgba(#000, 0.3)
 }
 

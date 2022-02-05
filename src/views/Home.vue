@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import Modal from "@/views/Modal.vue"
+import Modal from "@/views/Modal/Modal.vue"
 
 export default defineComponent({
   name: "Home",
@@ -29,8 +29,9 @@ export default defineComponent({
 
 <style scoped>
 .main{
+  background-color: aliceblue;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

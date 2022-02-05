@@ -1,23 +1,40 @@
-import { reactive, ref, computed, Ref } from "vue"
+import { reactive, ref, computed, Ref, WritableComputedRef } from "vue"
 
-type useModalResult = {
-  radioStyle: string,
-  selected: Ref<string>,
+// todoデータタイプ
+type todoData = {
+  value: number,
+  label: string,
+  cost: number 
 }
 
-export const useModal = () => {
+// 出力データタイプ
+export type useModalResult = {
+  radioStyle: (value: string) => string,
+  selected: Ref<string>,
+  selectedOption: Ref<todoData>
+  selectComputed: WritableComputedRef<string>,
+  slopeOptions: Array<todoData>,
+
+}
+
+export const useModal = (): useModalResult => {
   // ラジオボタンスタイル
-  const radio_style = (slopeValue: string) => {
+  const radioStyle = (value: string): string => {
     let style = "modal__main__radio"
-    if (slopeValue === selected.value) {
+    if (value === selected.value) {
       style = style + " radio__checked"
     }
+    console.log(style)
     return style
   }
 
   // Radioボタンの選択中データ
-  const selected = ref("");
-  const selectedOption = ref({})
+  const selected = ref<string>("");
+  const selectedOption = ref<todoData>({
+    value: -1,
+    label: "",
+    cost: 0
+  })
   const selectComputed = computed({
     get: () => selected.value,
     set: (value: string) => {
@@ -26,10 +43,11 @@ export const useModal = () => {
       if (option) {
         selectedOption.value = option
       }
+      console.log(value)
     }
   })
   // オプションデータ
-  const slopeOptions = reactive([
+  const slopeOptions = reactive<Array<todoData>>([
     {
       value: 0,
       label: "要件定義",
@@ -57,21 +75,11 @@ export const useModal = () => {
     },
   ])
 
-  // ×ボタン押した時のイベントハンドラ
-  const handleClickClose = () => {
-    //context.emit("updateModalViewVisible", false)
+  return {
+    radioStyle,
+    selected,
+    selectedOption,
+    selectComputed,
+    slopeOptions,
   }
-
-  // キャンセルボタン押した時のイベントハンドラ
-  const handleClickCancel = () => {
-    handleClickClose()
-  }
-
-  // OKボタン押した時のイベントハンドラ
-  const handleClickSubmit = () => {
-    const option = slopeOptions.find((opt) => opt.value === Number(selected.value))
-    //context.emit("updateSelectedSlope", option)
-  }
-
-
 }

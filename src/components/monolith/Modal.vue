@@ -126,7 +126,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vw;
+  height: 100vh;
   background: rgba(#000, 0.3)
 }
 
