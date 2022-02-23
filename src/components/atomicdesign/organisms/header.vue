@@ -1,22 +1,18 @@
 <template>
-  <headertitle class="modal__header__title">
-    次のタスクを選ぼう
-  </headertitle>
-  <cancelicon src="close.png"  @clickIcon="handleClickClose"/>
+  <div class="modal__header">
+    <headermenu @clickClose="handleClickClose"/>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import headertitle from "../atoms/title.vue"
-import cancelicon from "../atoms/icon.vue"
+import headermenu from "../molecues/headermenu.vue";
 
 export default defineComponent({
-  name: "HeaderMenu",
-  components: {
-    headertitle,
-    cancelicon
+  name: "ModalHeader",
+  components:{
+    headermenu
   },
-  emits:["clickClose"],
   setup(_, context){
 
     // ×ボタン押した時のイベントハンドラ
@@ -39,6 +35,11 @@ export default defineComponent({
   border-bottom: solid 1px #eee;
   background-color: #ebf5fe;
   padding: 16px 16px 12px;
+}
+
+.modal__header__close{
+  width: 16px;
+  height: 16px;
 }
 
 </style>

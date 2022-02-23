@@ -1,19 +1,15 @@
 <template>
-  <FooterMenu
-    @clickCancel="handleClickCancel"
-    @clickSubmit="handleClickSubmit"
-  />
+  <div class="modal__footer">
+    <button class="modal__footer__button" @click="handleClickCancel">キャンセル</button>
+    <button class="modal__footer__button" theme="primary" @click="handleClickSubmit">決定</button>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import FooterMenu from "../molecues/footermenu.vue"
 
 export default defineComponent({
-  name: "Footer",
-  components: {
-    FooterMenu
-  },
+  name: "FooterMenu",
   emits: ["clickCancel", "clickSubmit"],
   setup(props, context){
 
